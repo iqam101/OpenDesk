@@ -1,0 +1,54 @@
+/* OpenDesk for Android: layout for phones and tablets (loaded after style.css). */
+html { -webkit-text-size-adjust: 100%; }
+body { font-size: 15px; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+input[type=text], input[type=password], input:not([type]), select, textarea { font-size: 16px; }
+.btn { padding: 10px 16px; }
+.btn.small { padding: 7px 12px; }
+.icon-btn { padding: 10px; }
+
+/* Home */
+.topbar { flex-wrap: wrap; gap: 10px; padding: 10px 12px; }
+.address-bar { order: 3; flex: 1 0 100%; max-width: none; }
+.home-main { flex-direction: column; overflow: auto; }
+.remote-desk { padding: 16px 14px; overflow: visible; }
+.recents { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.tile .thumb { height: 64px; font-size: 24px; }
+.tile .tile-actions { position: static; display: flex; flex-wrap: wrap; gap: 4px; padding: 0 8px 8px; }
+.tile .tile-actions button { background: #eef0f3; color: var(--text); padding: 6px 9px; }
+.status-box { flex-wrap: wrap; }
+
+/* Session */
+.toolbar { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 6px 8px; scrollbar-width: none; }
+.toolbar::-webkit-scrollbar { display: none; }
+.tb-group { flex-wrap: nowrap; flex: none; }
+.toolbar select, .tb-btn { padding: 8px 10px; font-size: 14px; white-space: nowrap; }
+.toolbar select { max-width: 130px; }
+#s-title { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stats { white-space: nowrap; }
+#viewport { overflow: hidden !important; }
+#screen { touch-action: none; }
+.chat { position: fixed; top: 46px; right: 0; bottom: 0; width: min(300px, 86vw); z-index: 30; box-shadow: -6px 0 24px rgba(0,0,0,.4); }
+
+/* On-screen keyboard */
+#kb-input { position: fixed; left: 0; bottom: 0; width: 1px; height: 1px; padding: 0; border: 0; opacity: 0; resize: none; z-index: -1; }
+#kb-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; display: flex; gap: 6px; padding: 6px; overflow-x: auto; background: var(--dark2); border-top: 1px solid #000; scrollbar-width: none; }
+#kb-bar::-webkit-scrollbar { display: none; }
+#kb-bar button { flex: none; min-width: 46px; padding: 9px 10px; background: #343944; color: #e8eaee; border: 1px solid #454b58; border-radius: 6px; font: 14px system-ui, sans-serif; }
+#kb-bar button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* Dialogs */
+.dialog { padding: 18px; }
+.dialog.wide, .dialog.files { width: 100%; }
+.dialog.files { height: calc(100vh - 30px); }
+.settings { flex-direction: column; gap: 10px; min-height: 0; }
+.settings nav { flex-direction: row; width: auto; overflow-x: auto; }
+.settings nav button { white-space: nowrap; padding: 9px 12px; }
+.panes { flex-direction: column; }
+#pane-local { display: none; }
+.xfer-buttons { flex-direction: row; order: 2; }
+.xfer-buttons .btn { flex: 1; padding: 10px 8px; }
+.list .f { padding: 11px 10px; }
+.pathbar input { font-size: 14px; }
+.xfer progress { width: 90px; }
+#toasts { bottom: 70px; width: 92vw; }
+.toast { max-width: 92vw; text-align: center; }

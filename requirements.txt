@@ -1,0 +1,9 @@
+aiohttp>=3.9
+pywebview>=5.0
+mss>=10.0
+numpy>=1.26
+pillow>=10.0
+pywin32>=306
+
+# only needed to build the exe
+pyinstaller>=6.0

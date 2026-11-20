@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenDesk</title>
+  <link rel="icon" href="/static/logo.svg">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- ===== Home ===== -->
+  <div id="home">
+    <header class="topbar">
+      <div class="brand">
+        <img src="/static/logo.svg" width="28" height="28" alt="">
+        <span>Open<b>Desk</b></span>
+      </div>
+      <form id="connect-form" class="address-bar">
+        <input id="target-id" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="Enter Remote Address" maxlength="14">
+        <button class="btn primary" type="submit">Connect</button>
+      </form>
+      <div class="top-actions">
+        <span class="net" id="net"><i class="dot"></i><span id="net-text">Connecting…</span></span>
+        <button class="icon-btn" id="btn-settings" title="Settings">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="home-main">
+      <aside class="this-desk">
+        <h3>This Desk</h3>
+        <p class="muted">Share this address to let someone connect to you.</p>
+        <div class="id-card">
+          <span class="label">Your Address</span>
+          <div class="id-row">
+            <span id="my-id" class="big-id">--- --- ---</span>
+            <button class="icon-btn" id="btn-copy-id" title="Copy address">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+          <span class="muted" id="my-name"></span>
+        </div>
+        <div class="desk-line"><span>Incoming requests</span><b id="st-interactive">—</b></div>
+        <div class="desk-line"><span>Unattended access</span><b id="st-unattended">—</b></div>
+        <button class="btn" id="btn-set-password">Set password for unattended access…</button>
+
+        <div id="incoming-sessions" class="hidden">
+          <h4>Connected to this desk</h4>
+          <div id="incoming-list"></div>
+        </div>
+      </aside>
+
+      <section class="remote-desk">
+        <div id="conn-status" class="status-box hidden"><div class="spinner" id="conn-spinner"></div><span id="conn-msg"></span><button class="btn small" id="conn-cancel">Cancel</button></div>
+        <h3>Recent Sessions</h3>
+        <div id="recents" class="recents"></div>
+        <p id="recents-empty" class="muted">No sessions yet. Enter the address of another desk above and press Connect.</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- ===== Remote session ===== -->
+  <div id="session" class="hidden">
+    <div class="toolbar">
+      <div class="tb-group">
+        <span class="live">●</span>
+        <b id="s-title">Remote</b>
+        <span id="s-stats" class="stats"></span>
+      </div>
+      <div class="tb-group">
+        <select id="s-monitor" title="Display"></select>
+        <select id="s-quality" title="Quality">
+          <option value="quality">Best quality</option>
+          <option value="balanced">Balanced</option>
+          <option value="speed">Best reaction time</option>
+        </select>
+        <select id="s-view" title="View mode">
+          <option value="fit">Fit window</option>
+          <option value="original">Original size</option>
+          <option value="stretch">Stretch</option>
+        </select>
+        <select id="s-actions" title="Actions">
+          <option value="">Actions…</option>
+          <option value="taskmgr">Task Manager (Ctrl+Shift+Esc)</option>
+          <option value="alttab">Alt+Tab</option>
+          <option value="win">Windows key</option>
+          <option value="winD">Show desktop (Win+D)</option>
+          <option value="winR">Run… (Win+R)</option>
+          <option value="lock">Lock remote desk</option>
+          <option value="screenshot">Take screenshot</option>
+        </select>
+        <button class="tb-btn" id="s-control" title="Toggle keyboard and mouse control">Control: on</button>
+        <button class="tb-btn" id="s-files">Files</button>
+        <button class="tb-btn" id="s-chat">Chat</button>
+        <button class="tb-btn" id="s-full">Fullscreen</button>
+      </div>
+      <div class="tb-group">
+        <button class="tb-btn danger" id="s-end">Disconnect</button>
+      </div>
+    </div>
+    <div class="session-body">
+      <div id="viewport" tabindex="0">
+        <div id="stage">
+          <canvas id="screen"></canvas>
+          <svg id="rcursor" class="hidden" viewBox="0 0 16 24" width="16" height="24"><path d="M1 1v19l5-5 3.2 7.6 2.8-1.2L8.8 14H15z" fill="#fff" stroke="#000" stroke-width="1.2"/></svg>
+        </div>
+      </div>
+      <aside id="chat" class="chat hidden">
+        <div class="chat-head"><b>Chat</b><button class="icon-btn" id="chat-close">✕</button></div>
+        <div class="chat-log" id="chat-log"></div>
+        <form id="chat-form"><input id="chat-input" placeholder="Type a message…" autocomplete="off" maxlength="2000"><button class="btn primary small">Send</button></form>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ===== Dialogs ===== -->
+  <div id="dlg-incoming" class="overlay hidden">
+    <div class="dialog">
+      <h3>Incoming connection</h3>
+      <p><b id="inc-name"></b> (<span id="inc-id"></span>) wants to view this desk.</p>
+      <label class="check"><input type="checkbox" id="inc-control"> Control my keyboard and mouse</label>
+      <label class="check"><input type="checkbox" id="inc-clipboard"> Synchronise the clipboard</label>
+      <label class="check"><input type="checkbox" id="inc-files"> Browse and transfer files</label>
+      <p class="muted">Only accept if you know and trust this person.</p>
+      <div class="dlg-actions"><button class="btn" id="inc-deny">Dismiss</button><button class="btn primary" id="inc-accept">Accept</button></div>
+    </div>
+  </div>
+
+  <div id="dlg-auth" class="overlay hidden">
+    <form class="dialog" id="auth-form">
+      <h3 id="auth-title">Connecting</h3>
+      <p id="auth-wait" class="row"><span class="spinner"></span><span>Waiting for the remote user to accept…</span></p>
+      <div id="auth-pw">
+        <p class="muted" id="auth-pw-hint">Or log in with the unattended-access password:</p>
+        <input type="password" id="auth-password" placeholder="Password" autocomplete="off">
+        <label class="check"><input type="checkbox" id="auth-remember"> Log in automatically from now on</label>
+      </div>
+      <p class="error" id="auth-error"></p>
+      <div class="dlg-actions"><button class="btn" type="button" id="auth-cancel">Cancel</button><button class="btn primary" id="auth-ok" type="submit">Log in</button></div>
+    </form>
+  </div>
+
+  <div id="dlg-password" class="overlay hidden">
+    <form class="dialog" id="pw-form">
+      <h3>Unattended access</h3>
+      <p class="muted">Anyone with this password can connect to this desk without someone accepting. Use a long, unique password.</p>
+      <input type="password" id="pw-1" placeholder="New password (min. 8 characters)" autocomplete="new-password">
+      <input type="password" id="pw-2" placeholder="Repeat password" autocomplete="new-password">
+      <p class="error" id="pw-error"></p>
+      <div class="dlg-actions"><button class="btn danger-text" type="button" id="pw-remove">Remove password</button><span class="grow"></span><button class="btn" type="button" id="pw-cancel">Cancel</button><button class="btn primary" type="submit">Save</button></div>
+    </form>
+  </div>
+
+  <div id="dlg-settings" class="overlay hidden">
+    <div class="dialog wide">
+      <h3>Settings</h3>
+      <div class="settings">
+        <nav id="set-nav">
+          <button data-tab="general" class="active">General</button>
+          <button data-tab="security">Security</button>
+          <button data-tab="display">Display</button>
+          <button data-tab="network">Connection</button>
+          <button data-tab="about">About</button>
+        </nav>
+        <div class="set-body">
+          <section data-tab="general">
+            <label class="field">Desk name (shown to people you connect to)<input id="set-name" maxlength="64"></label>
+            <label class="check"><input type="checkbox" id="set-autostart"> Start OpenDesk when I sign in to Windows</label>
+          </section>
+          <section data-tab="security" class="hidden">
+            <label class="field">Interactive access
+              <select id="set-interactive"><option value="always">Show incoming requests and let me accept</option><option value="never">Never allow incoming requests</option></select>
+            </label>
+            <div class="field">Unattended access: <b id="set-pw-state"></b> <button class="btn small" id="set-pw-btn" type="button">Change password…</button></div>
+            <div class="field">Permissions for password logins</div>
+            <label class="check"><input type="checkbox" id="set-p-control"> Control keyboard and mouse</label>
+            <label class="check"><input type="checkbox" id="set-p-clipboard"> Synchronise clipboard</label>
+            <label class="check"><input type="checkbox" id="set-p-files"> Browse and transfer files</label>
+          </section>
+          <section data-tab="display" class="hidden">
+            <label class="field">Default quality
+              <select id="set-quality"><option value="quality">Best quality</option><option value="balanced">Balanced</option><option value="speed">Best reaction time</option></select>
+            </label>
+            <label class="field">Default view mode
+              <select id="set-view"><option value="fit">Fit window</option><option value="original">Original size</option><option value="stretch">Stretch</option></select>
+            </label>
+            <label class="check"><input type="checkbox" id="set-cursor"> Show the remote mouse cursor</label>
+          </section>
+          <section data-tab="network" class="hidden">
+            <label class="field">Rendezvous servers (MQTT over WebSocket, one per line). Both desks must share at least one.
+              <textarea id="set-brokers" rows="3" spellcheck="false"></textarea></label>
+            <label class="field">STUN / TURN servers, one per line: <code>url [username] [credential]</code>
+              <textarea id="set-ice" rows="4" spellcheck="false"></textarea></label>
+            <p class="muted">A TURN relay is only needed when both networks block direct connections (some mobile, hotel and corporate networks). Example: <code>turn:relay.example.com:3478 user secret</code></p>
+            <button class="btn small" id="set-net-reset" type="button">Restore defaults</button>
+          </section>
+          <section data-tab="about" class="hidden">
+            <p><b>OpenDesk</b> <span id="about-version"></span></p>
+            <p class="muted">Peer-to-peer remote desktop. Sessions are encrypted end to end (DTLS).</p>
+            <p class="muted">Settings folder: <code id="about-dir"></code></p>
+          </section>
+        </div>
+      </div>
+      <p class="error" id="set-error"></p>
+      <div class="dlg-actions"><button class="btn" id="set-cancel">Cancel</button><button class="btn primary" id="set-save">Save</button></div>
+    </div>
+  </div>
+
+  <div id="dlg-files" class="overlay hidden">
+    <div class="dialog files">
+      <div class="files-head"><h3>File transfer</h3><button class="icon-btn" id="files-close">✕</button></div>
+      <div class="panes">
+        <div class="pane" id="pane-local">
+          <div class="pane-title">This computer</div>
+          <div class="pathbar"><button class="btn small" data-act="up">↑</button><input data-act="path" spellcheck="false"><button class="btn small" data-act="refresh">⟳</button></div>
+          <div class="list"></div>
+        </div>
+        <div class="xfer-buttons">
+          <button class="btn primary" id="btn-upload" title="Send selected files to the remote desk">Send →</button>
+          <button class="btn primary" id="btn-download" title="Receive selected files from the remote desk">← Receive</button>
+        </div>
+        <div class="pane" id="pane-remote">
+          <div class="pane-title">Remote desk</div>
+          <div class="pathbar"><button class="btn small" data-act="up">↑</button><input data-act="path" spellcheck="false"><button class="btn small" data-act="refresh">⟳</button></div>
+          <div class="list"></div>
+        </div>
+      </div>
+      <p class="muted tip">Quicker: copy files with Ctrl+C on one computer and paste them with Ctrl+V on the other, or drag files onto the remote screen to drop them on its Desktop. Double-click a file here to transfer it.</p>
+      <div id="xfers" class="xfers"></div>
+    </div>
+  </div>
+
+  <div id="host-chat" class="float-chat hidden">
+    <div class="chat-head"><b id="host-chat-title">Chat</b><button class="icon-btn" id="host-chat-close">✕</button></div>
+    <div class="chat-log" id="host-chat-log"></div>
+    <form id="host-chat-form"><input id="host-chat-input" placeholder="Type a message…" autocomplete="off" maxlength="2000"><button class="btn primary small">Send</button></form>
+  </div>
+
+  <div id="drop-hint" class="hidden"><div>Drop files to send them to the remote Desktop</div></div>
+  <div id="toasts"></div>
+  <div id="fatal" class="overlay hidden"><div class="dialog"><h3>OpenDesk stopped</h3><p>The background service is not responding. Please restart OpenDesk.</p></div></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

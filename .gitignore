@@ -1,0 +1,21 @@
+# Build output
+build/
+dist/
+*.exe
+*.apk
+android/build/
+# APK signing key: keep your copy private (updates must be signed with the same key)
+*.keystore
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local / editor
+.claude/
+.vscode/
+.idea/
+*.log
+Thumbs.db
